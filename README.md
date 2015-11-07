@@ -34,3 +34,8 @@ rails generate rspec:installが動かないから
 Gemfile に 
   gem 'therubyracer', platforms: :ruby
 を追加し、bundle install して サイド rspec:installを実行
+
+herokuの設定は、 vagrant 上でやる場合は
+http://qiita.com/hirolog/items/eefda94756f547ea08f2
+をみると設定がすぐにできる。
+
