@@ -39,3 +39,6 @@ herokuの設定は、 vagrant 上でやる場合は
 http://qiita.com/hirolog/items/eefda94756f547ea08f2
 をみると設定がすぐにできる。
 
+spec/spec_helper.rbじゃなくて、 spec/rails_helper.rbに config.include Capybara::DSL を追記する。
+
+
