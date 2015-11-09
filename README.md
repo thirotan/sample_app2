@@ -41,4 +41,16 @@ http://qiita.com/hirolog/items/eefda94756f547ea08f2
 
 spec/spec_helper.rbじゃなくて、 spec/rails_helper.rbに config.include Capybara::DSL を追記する。
 
+== 3章: 演習
+3.5.3
+posgresql-server  postgresql postgresql-libs 辺りを yum で入れる  
 
+# su - postgres
+-bash-4.1$ createuser dev
+Shall the new role be a superuser? (y/n) y
+-bash-4.1$ logout
+
+と、 postgresユーザになって、 devという(開発で使ってるユーザと同じ名前の)ユーザを作成し、
+rake db:create  
+rake db:migrate  
+する

@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 
 gem 'rails', '4.2.4'
+gem 'pg'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'rspec-rails'
 end
 
@@ -26,7 +26,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
 
