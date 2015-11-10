@@ -41,9 +41,10 @@ http://qiita.com/hirolog/items/eefda94756f547ea08f2
 
 spec/spec_helper.rbじゃなくて、 spec/rails_helper.rbに config.include Capybara::DSL を追記する。
 
-== 3章: 演習
+== 3章 演習
 3.5.3
 posgresql-server  postgresql postgresql-libs 辺りを yum で入れる  
+http://lets.postgresql.jp/documents/tutorial/centos
 
 # su - postgres
 -bash-4.1$ createuser dev
