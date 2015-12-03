@@ -26,6 +26,16 @@ RSpec.describe "UserPages", type: :request do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
+
+      describe "after submission" do
+        before { click_button submit }
+ 
+        it { is_expected.to have_title("Sign up")}
+        it { is_expected.to have_content("error") }
+        it { is_expected.to have_content("can't be blank") }
+        it { is_expected.to have_content("invalid") }
+        it { is_expected.to have_content("too short") }
+      end
     end
 
     describe "with valid information" do
@@ -35,9 +45,19 @@ RSpec.describe "UserPages", type: :request do
         fill_in "Password",     with: "foobar"
         fill_in "Confirmation", with: "foobar"
       end
+
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
+
+      describe "after saving the user" do
+        before { click_button submit }
+        let(:user) { User.find_by(email: 'user@example.com') }
+
+        it { is_expected.to have_title(user.name) }
+        it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
+      end
     end
+
   end
 end
