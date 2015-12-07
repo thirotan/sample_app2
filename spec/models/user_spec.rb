@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to respond_to(:password_digest) }
   it { is_expected.to respond_to(:password) }
   it { is_expected.to respond_to(:password_confirmation) }
-  
+  it { is_expected.to respond_to(:remember_token) }
   it { is_expected.to respond_to(:authenticate) }
 
 
@@ -107,6 +107,11 @@ RSpec.describe User, type: :model do
       it { is_expected.not_to eq user_for_invalid_password }
       specify { expect(user_for_invalid_password).to be_falsy }
     end
+  end
+
+  describe "remember_token" do
+    before { @user.save }
+    it { expect(@user.remember_token).not_to be_blank }
   end
 end
 
