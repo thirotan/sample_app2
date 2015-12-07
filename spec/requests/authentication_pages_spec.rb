@@ -18,21 +18,24 @@ RSpec.describe "AuthenticationPages", type: :request do
       before { click_button "Sign in" }
 
       it { is_expected.to have_title('Sign in') }
-      it { is_expected.to have_selector('div.alert.alert-danger', text: 'Invalid') }
+      #it { is_expected.to have_selector('div.alert.alert-danger', text: 'Invalid') }
+      it { is_expected.to have_error_message('Invalid') } 
 
       describe "after visitng another page" do
         before { click_link "Home" }
-        it { is_expected.not_to have_selector('div.alert.alert-danger') }
+        #it { is_expected.not_to have_selector('div.alert.alert-danger') }
+        it { is_expected.not_to have_error_message('Invalid') } 
       end
     end
 
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
-      before do
-        fill_in "Email",    with: user.email.upcase
-        fill_in "Password", with: user.password
-        click_button "Sign in"
-      end
+      before { valid_signin(user) }
+      #before do
+      #  fill_in "Email",    with: user.email.upcase
+      #  fill_in "Password", with: user.password
+      #  click_button "Sign in"
+      #end
 
       it { is_expected.to have_title(user.name) }
       it { is_expected.to have_link('Profile', href: user_path(user)) }

@@ -17,7 +17,7 @@ development:
   username: dev
   password:
 
-test:
+test: &test
   adapter: postgresql
   encoding: unicode
   database: SampleApp_test
@@ -47,3 +47,6 @@ production:
 #production:
 #  <<: *default
 #  database: db/production.sqlite3
+
+cucumber:
+  <<: *test
