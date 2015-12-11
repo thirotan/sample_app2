@@ -6,7 +6,7 @@ gem 'pg'
 gem 'bootstrap-sass'
 gem 'sprockets'
 gem 'bcrypt-ruby'
-gem 'fake'
+gem 'faker'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
