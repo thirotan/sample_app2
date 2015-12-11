@@ -25,7 +25,28 @@ RSpec.describe "UserPages", type: :request do
         end
       end
     end
+
+    describe "delete links" do
+      it { is_expected.not_to have_link('delete') }
+  
+      describe "as an admin user" do
+        let(:admin) { FactoryGirl.create(:admin) }
+        before do
+          sign_in admin
+          visit users_path
+        end
+  
+        it { is_expected.to have_link('delete', href: user_path(User.first)) }
+        it "should be able to delete another user" do
+          expect do
+            click_link('delete', match: :first)
+          end.to change(User, :count).by(-1)
+        end
+        it { is_expected.not_to have_link('delete', href: user_path(admin)) }
+      end
+    end
   end
+
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
@@ -87,7 +108,10 @@ RSpec.describe "UserPages", type: :request do
 
   describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
-    before { visit edit_user_path(user) }
+    before do
+      sign_in user
+      visit edit_user_path(user)
+    end
 
     describe  "page" do
       it { is_expected.to have_content("Update your profile") }
