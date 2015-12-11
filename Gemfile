@@ -6,6 +6,9 @@ gem 'pg'
 gem 'bootstrap-sass'
 gem 'sprockets'
 gem 'bcrypt-ruby'
+gem 'fake'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -15,7 +18,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
