@@ -57,9 +57,25 @@ RSpec.describe "AuthenticationPages", type: :request do
           click_button "Sign in" 
         end
 
-        describe "after signin in" do
+        describe "after signing in" do
+ 
           it "should render the desired protected page" do
             expect(page).to have_title('Edit user')
+          end
+
+          describe "when signing in again" do
+            before do
+              delete signout_path
+              visit signin_path
+              fill_in "Email",    with: user.email
+              fill_in "Password", with: user.password
+              click_button "Sign in"
+            end
+
+            it "should render the default (profile) page" do
+              is_expected.to have_link('Sign out', href: signout_path)
+#             expect(page).to have_title(user.name)
+            end
           end
         end
       end
@@ -93,6 +109,15 @@ RSpec.describe "AuthenticationPages", type: :request do
           specify { expect(response).to redirect_to(root_path) }
         end 
       end
+
+      describe "not exists link" do
+        before { visit root_path }
+        
+        it { is_expected.not_to have_link('Profile', href: user_path(user)) }
+        it { is_expected.not_to have_link('Settings', href: edit_user_path(user)) }
+        it { is_expected.not_to have_link('Sign out', href: signout_path) }
+        it { is_expected.to have_link('Sign in', href: signin_path) }
+      end
     end
 
     describe "as wrong user" do 
@@ -108,6 +133,18 @@ RSpec.describe "AuthenticationPages", type: :request do
 
       describe "submitting a PATCH request to the User#update action" do
         before { patch user_path(wrong_user) }
+        specify { expect(response).to redirect_to(root_path) }
+      end
+    end
+
+    describe "as an admin user" do 
+      let(:admin) { FactoryGirl.create(:admin) }
+      before do
+        sign_in admin, no_capybara: true
+      end
+
+      describe "submitting a DELETE request to the User#destroy action" do
+        before { delete user_path(admin) }
         specify { expect(response).to redirect_to(root_path) }
       end
     end
