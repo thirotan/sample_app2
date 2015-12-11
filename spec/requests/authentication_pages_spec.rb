@@ -28,11 +28,7 @@ RSpec.describe "AuthenticationPages", type: :request do
 
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
-<<<<<<< HEAD
-      before { valid_signin(user) }
-=======
       before { sign_in user  }
->>>>>>> updating-users
 
       it { is_expected.to have_title(user.name) }
       it { is_expected.to have_link('Users',        href: users_path) }
