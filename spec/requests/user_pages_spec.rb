@@ -61,7 +61,7 @@ RSpec.describe "UserPages", type: :request do
     describe "microposts" do
       it { is_expected.to have_content(m1.content) }
       it { is_expected.to have_content(m2.content) }
-      it { is_expected.to have_content(user.microposts.content) }
+      it { is_expected.to have_content(user.microposts.count) }
     end
   end
 

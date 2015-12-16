@@ -59,10 +59,10 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
-  def signed_in_user
-    store_location
-    redirect_to signin_url, natice: "Please sign in." unless signed_in?
-  end
+#  def signed_in_user
+#    store_location
+#    redirect_to signin_url, natice: "Please sign in." unless signed_in?
+#  end
 
   def correct_user
     @user = User.find(params[:id])
