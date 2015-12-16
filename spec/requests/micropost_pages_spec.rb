@@ -26,6 +26,23 @@ RSpec.describe "MicropostPages", type: :request do
       it "should create a micropost" do
         expect { click_button "Post" }.to change(Micropost, :count).by(1)
       end
+
+      describe "and post 1 micropost" do 
+        before { click_button "Post" }
+
+        it { is_expected.to have_content('1 micropost') }
+        it { is_expected.not_to have_content('1 microposts') }
+      end
+
+      describe "and post 2 micropost" do
+        before do 
+          click_button "Post"
+          fill_in "micropost_content", with: "hoge"
+          click_button "Post"
+        end
+
+        it { is_expected.to have_content('2 micropost') }
+      end
     end
   end
 
@@ -39,5 +56,32 @@ RSpec.describe "MicropostPages", type: :request do
         expect{ click_link "delete" }.to change(Micropost, :count).by(-1)
       end
     end
+  end
+
+  describe "pagination" do
+    before do
+      40.times { FactoryGirl.create(:micropost, user: user) }
+      visit root_path
+    end
+    after { Micropost.delete_all }
+
+    it { is_expected.to have_selector('div.pagination') }
+
+
+    it "should list each micropost" do
+      user.microposts.paginate(page: 1).each do |micropost|
+        expect(page).to have_selector('li', text: micropost.content)
+      end
+    end
+  end
+
+  describe "other user7s micropost without delete_link" do
+    let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      FactoryGirl.create(:micropost, user: other_user)
+      visit user_path(other_user)
+    end
+
+    it { is_expected.not_to have_link('delete') }
   end
 end
