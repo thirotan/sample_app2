@@ -106,6 +106,16 @@ RSpec.describe "AuthenticationPages", type: :request do
           before { visit users_path }
           it { is_expected.to have_title('Sign in') }
         end
+
+        describe "visiting the following page" do
+          before { visit following_user_path(user) }
+          it { is_expected.to have_title('Sign in') }
+        end
+
+        describe "visiting the followers page" do 
+          before { visit followers_user_path(user) }
+          it { is_expected.to have_title('Sign in') }
+        end
       end
 
       describe "as non-admin user" do
@@ -127,6 +137,18 @@ RSpec.describe "AuthenticationPages", type: :request do
         it { is_expected.not_to have_link('Settings', href: edit_user_path(user)) }
         it { is_expected.not_to have_link('Sign out', href: signout_path) }
         it { is_expected.to have_link('Sign in', href: signin_path) }
+      end
+
+      describe "in the Relationships controller" do 
+        describe "submitting to the create action" do
+          before { post relationships_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end  
+
+        describe "submitting to the destroy action" do
+          before { delete relationship_path(1) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
       end
     end
 
