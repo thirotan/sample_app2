@@ -161,10 +161,21 @@ RSpec.describe User, type: :model do
       let(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
+      let(:followed_user) { FactoryGirl.create(:user) }
+
+      before do
+        @user.follow!(followed_user)
+        3.times { followed_user.microposts.create!(content: "Lorem ipsum") }
+      end
 
       its(:feed) { is_expected.to include(newer_micropost) }
       its(:feed) { is_expected.to include(older_micropost) }
       its(:feed) { is_expected.not_to include(unfollowed_post) }
+      its(:feed) do
+        followed_user.microposts.each do |micropost|
+          is_expected.to include(micropost)
+        end
+      end
     end
   end
 
